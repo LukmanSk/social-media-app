@@ -8,6 +8,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const path = require("path");
 const auth = require("./controllers/auth");
+const authRoutes = require("./routes/auth");
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -35,6 +36,9 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILES */
 app.post("/auth/register", upload.single("picture"), auth.register);
+
+/* ROUTES */
+app.use("/auth", authRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
