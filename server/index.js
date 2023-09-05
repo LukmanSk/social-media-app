@@ -9,6 +9,13 @@ const morgan = require("morgan");
 const path = require("path");
 const auth = require("./controllers/auth");
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/users");
+const postRoutes = require("./routes/posts");
+const { verifyToken } = require("./middleware/auth");
+const { createPost } = require("./controllers/posts");
+const User = require("./models/User");
+const Post = require("./models/Post");
+const { users, posts } = require("./data/index");
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -36,9 +43,12 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILES */
 app.post("/auth/register", upload.single("picture"), auth.register);
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 /* ROUTES */
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
@@ -55,5 +65,9 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port:${PORT}`));
+
+    /* ADD DATA ONE TIME */
+    // User.insertMany(users);
+    // Post.insertMany(posts);
   })
   .catch((error) => console.log(`${error} did not connect`));
