@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
       location,
       occupation,
       viewedProfile: Math.floor(Math.random() * 1000),
-      impressions: Math.floor(Math.random() * 1000),
+      impression: Math.floor(Math.random() * 1000),
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
