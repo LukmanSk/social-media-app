@@ -13,7 +13,7 @@ const FriendListWidget = ({ userId }) => {
 
   const getFriends = async () => {
     const response = await fetch(
-      `http://localhost:3001/users/${userId}/friends`,
+      `https://social-media-app-v1.netlify.app/users/${userId}/friends`,
       {
         method: "GET",
         headers: {
